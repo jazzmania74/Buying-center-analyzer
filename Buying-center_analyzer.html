@@ -564,6 +564,7 @@ textarea.input-field { resize: vertical; min-height: 80px; }
         <div id="apiKeyArea" style="display:none;margin-top:6px;gap:6px;">
           <input type="password" class="input-field" id="tcaApiKey" placeholder="sk-ant-..." style="flex:1;">
           <button type="button" id="apiSaveBtn" style="padding:8px 16px;background:#1a73e8;color:white;border:none;border-radius:8px;cursor:pointer;font-size:12px;white-space:nowrap;">저장</button>
+          <button type="button" id="apiDeleteBtn" style="padding:8px 16px;background:#d32f2f;color:white;border:none;border-radius:8px;cursor:pointer;font-size:12px;white-space:nowrap;">삭제</button>
         </div>
       </div>
       <div class="input-group full-width">
@@ -1020,6 +1021,12 @@ textarea.input-field { resize: vertical; min-height: 80px; }
       localStorage.setItem('tca_anthropic_api_key', k);
       apiStatus.textContent = '✅ 저장됨';
       apiKeyArea.style.display = 'none'; apiArrow.textContent = '▶';
+    });
+    document.getElementById('apiDeleteBtn').addEventListener('click', function() {
+      localStorage.removeItem('tca_anthropic_api_key');
+      document.getElementById('tcaApiKey').value = '';
+      apiStatus.textContent = '';
+      apiKeyArea.style.display = 'flex'; apiArrow.textContent = '▼';
     });
 
     document.getElementById('tcaBtnAnalyze').addEventListener('click', analyze);
