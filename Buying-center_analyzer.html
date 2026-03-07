@@ -1,0 +1,1105 @@
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navien-blue: #0066CC;
+  --navien-light: #00A5E5;
+  --navien-dark: #003D7A;
+  --bg-main: #F5F8FC;
+  --bg-white: #FFFFFF;
+  --accent-orange: #FF6B00;
+  --accent-green: #00B67A;
+  --competitor-gray: #8C8C8C;
+  --text-primary: #1A1A2E;
+  --text-secondary: #5A6070;
+  --text-light: #8A90A0;
+  --border: #E2E8F0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --purple: #7C3AED;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --success: #059669;
+  --success-light: #d1fae5;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.calculator-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ─── Header ─── */
+.calc-header {
+  background: linear-gradient(135deg, var(--navien-blue) 0%, var(--navien-dark) 100%);
+  border-radius: var(--radius-lg);
+  padding: 36px 40px;
+  margin-bottom: 28px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.calc-header::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+}
+.header-text { position: relative; z-index: 1; flex: 1; }
+.calc-header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.5px; }
+.calc-header .subtitle { font-size: 14px; opacity: 0.8; font-weight: 400; }
+.header-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.header-illustration {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 180px;
+  height: 160px;
+  opacity: 0.92;
+}
+
+/* ─── Section Card ─── */
+.section-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title .icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.icon-blue { background: #E8F4FD; color: var(--navien-blue); }
+.icon-green { background: #E6F9F1; color: var(--accent-green); }
+.icon-orange { background: #FFF3E8; color: var(--accent-orange); }
+.icon-purple { background: #F3E8FF; color: var(--purple); }
+
+/* ─── Input Section ─── */
+.input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.input-group { display: flex; flex-direction: column; gap: 6px; }
+.input-group.full-width { grid-column: 1 / -1; }
+.input-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+.input-hint { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+.input-field {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #FAFBFC;
+}
+.input-field:focus {
+  outline: none;
+  border-color: var(--navien-blue);
+  box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+  background: #fff;
+}
+.input-field::placeholder { color: var(--text-light); }
+textarea.input-field { resize: vertical; min-height: 80px; }
+
+/* ─── Calculate Button ─── */
+.calc-btn-row { display: flex; gap: 12px; margin-top: 8px; }
+.btn-calculate {
+  flex: 1; padding: 14px 28px;
+  background: linear-gradient(135deg, var(--navien-blue), var(--navien-dark));
+  color: #fff; border: none; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 14px rgba(0,102,204,0.3);
+}
+.btn-calculate:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,102,204,0.4); }
+.btn-calculate:active { transform: translateY(0); }
+.btn-calculate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ─── Progress Section ─── */
+.progress-card { display: none; }
+.progress-card.visible { display: block; animation: fadeInUp 0.4s ease; }
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.progress-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.progress-spinner {
+  width: 20px; height: 20px;
+  border: 3px solid var(--border);
+  border-top-color: var(--navien-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.progress-percent {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navien-blue);
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background: #EEF2F6;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--navien-blue), var(--navien-light));
+  border-radius: 999px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.progress-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-light);
+  transition: color 0.3s;
+}
+.progress-step.active { color: var(--navien-blue); font-weight: 600; }
+.progress-step.done { color: var(--accent-green); }
+
+.progress-step-icon {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+  background: #F0F2F5; color: var(--text-light);
+  border: 2px solid var(--border);
+  transition: all 0.3s;
+}
+.progress-step.active .progress-step-icon {
+  background: #E8F4FD; border-color: var(--navien-blue); color: var(--navien-blue);
+}
+.progress-step.done .progress-step-icon {
+  background: #E6F9F1; border-color: var(--accent-green); color: var(--accent-green);
+}
+
+/* ─── Error ─── */
+.error-message {
+  display: none;
+  background: var(--danger-light);
+  border: 1px solid #fca5a5;
+  color: var(--danger);
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.error-message.active { display: block; }
+
+/* ─── Results ─── */
+#tcaResults { display: none; }
+#tcaResults.visible { display: block; animation: fadeInUp 0.5s ease; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Target Type Badges */
+.target-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.target-badge {
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+.badge-b2c { background: var(--success-light); color: var(--success); border: 2px solid var(--success); }
+.badge-b2b { background: #E8F4FD; color: var(--navien-blue); border: 2px solid var(--navien-blue); }
+.badge-b2g { background: var(--warning-light); color: var(--warning); border: 2px solid var(--warning); }
+
+/* Industry Card */
+.industry-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--purple);
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+.industry-card h3 {
+  font-size: 16px; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.industry-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.industry-info-item {
+  background: #FAFBFC;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.industry-info-item .info-label {
+  font-size: 11px; font-weight: 600; color: var(--text-light);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.industry-info-item .info-value {
+  font-size: 16px; font-weight: 700; color: var(--text-primary); margin-top: 4px;
+}
+.industry-desc {
+  margin-top: 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.7;
+}
+
+/* Section Heading */
+.result-section-title {
+  font-size: 18px; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* Role Cards Grid */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.role-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.role-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.role-card-header {
+  padding: 14px 20px;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+}
+.role-card-header.b2c-user { background: var(--success); }
+.role-card-header.b2c-decision { background: var(--navien-blue); }
+.role-card-header.b2c-influencer { background: var(--purple); }
+.role-card-header.b2b-decider { background: var(--danger); }
+.role-card-header.b2b-buyer { background: var(--navien-blue); }
+.role-card-header.b2b-influencer { background: var(--purple); }
+.role-card-header.b2b-initiator { background: var(--success); }
+.role-card-header.b2b-user { background: var(--navien-light); }
+.role-card-header.b2b-gatekeeper { background: var(--warning); }
+
+.role-card-body { padding: 20px; }
+
+.role-field { margin-bottom: 14px; }
+.role-field:last-child { margin-bottom: 0; }
+.role-field-label {
+  font-size: 11px; font-weight: 600; color: var(--text-light);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.role-field-value { font-size: 14px; color: var(--text-primary); line-height: 1.7; }
+
+.department-badge {
+  display: inline-block;
+  background: #E8F4FD;
+  color: var(--navien-blue);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pain-list { list-style: none; padding: 0; }
+.pain-list li {
+  position: relative; padding-left: 16px; margin-bottom: 6px;
+  font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+}
+.pain-list li::before {
+  content: ''; position: absolute; left: 0; top: 8px;
+  width: 7px; height: 7px; background: var(--danger); border-radius: 50%;
+}
+
+.value-prop {
+  background: linear-gradient(135deg, #E8F4FD 0%, #F3E8FF 100%);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.7;
+  border-left: 3px solid var(--navien-blue);
+}
+
+/* B2G Section */
+.b2g-section {
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--warning);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+}
+.b2g-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+.b2g-item {
+  background: #FAFBFC;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+}
+.b2g-item h4 {
+  font-size: 11px; font-weight: 600; color: var(--text-light);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+}
+.tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  background: var(--warning-light);
+  color: var(--warning);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ─── Save Buttons ─── */
+.save-btn-row {
+  display: none;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+.save-btn-row.visible { display: flex; }
+
+.btn-pdf {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+  background: var(--navien-dark); color: #fff; border: none; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: all 0.15s;
+}
+.btn-pdf:hover { background: #002D5C; }
+
+.btn-html {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+  background: var(--navien-blue); color: #fff; border: none; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: all 0.15s;
+}
+.btn-html:hover { background: #0055AA; }
+
+.btn-copy {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+  background: #fff; color: var(--text-secondary); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.btn-copy:hover { border-color: #ccc; background: #f9f9f9; }
+.btn-copy.copied { border-color: var(--accent-green); color: var(--accent-green); background: #E6F9F1; }
+
+/* ─── Footer ─── */
+.calc-footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+/* ─── Print ─── */
+@media print {
+  body { background: #fff; }
+  .calc-header { background: var(--navien-blue) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .header-illustration { display: none; }
+  .section-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  #input-section, .progress-card, .save-btn-row, .calc-footer { display: none !important; }
+  .section-card:has(.calc-btn-row) { display: none !important; }
+  .error-message { display: none !important; }
+  #tcaResults { display: block !important; }
+  .role-card { break-inside: avoid; }
+  .role-card-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .target-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .value-prop { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .input-grid { grid-template-columns: 1fr; }
+  .role-grid { grid-template-columns: 1fr; }
+  .industry-info-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .calc-header { flex-direction: column; text-align: center; }
+  .header-illustration { width: 140px; height: 120px; order: -1; }
+}
+@media (max-width: 600px) {
+  .calculator-wrap { padding: 12px 12px 40px; }
+  .calc-header { padding: 24px 20px; }
+  .calc-header h1 { font-size: 20px; }
+  .section-card { padding: 20px 16px; }
+  .header-illustration { width: 120px; height: 100px; }
+}
+</style>
+
+<div class="calculator-wrap">
+  <!-- Header -->
+  <header class="calc-header">
+    <div class="header-text">
+      <div class="header-badge">🎯 Target Customer Analyzer</div>
+      <h1>AI기반 타겟고객 Buying Center 분석</h1>
+      <p class="subtitle">회사와 제품 정보를 입력하면 AI가 B2C, B2B, B2G 타겟 고객을 자동으로 분석하고 역할별 가치제안을 생성합니다.</p>
+    </div>
+    <div class="header-illustration">
+      <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Target / Bullseye -->
+        <circle cx="100" cy="78" r="52" stroke="rgba(255,255,255,0.15)" stroke-width="2.5"/>
+        <circle cx="100" cy="78" r="36" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        <circle cx="100" cy="78" r="20" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+        <circle cx="100" cy="78" r="7" fill="rgba(255,255,255,0.5)"/>
+        <!-- Person: Top (Decider) -->
+        <circle cx="100" cy="16" r="9" fill="rgba(255,255,255,0.85)"/>
+        <rect x="91" y="27" width="18" height="4" rx="2" fill="rgba(255,255,255,0.65)"/>
+        <!-- Person: Right (Buyer) -->
+        <circle cx="160" cy="60" r="9" fill="rgba(0,165,229,0.8)"/>
+        <rect x="151" y="71" width="18" height="4" rx="2" fill="rgba(0,165,229,0.6)"/>
+        <!-- Person: Bottom-Right (Influencer) -->
+        <circle cx="148" cy="120" r="9" fill="rgba(124,58,237,0.7)"/>
+        <rect x="139" y="131" width="18" height="4" rx="2" fill="rgba(124,58,237,0.5)"/>
+        <!-- Person: Bottom-Left (User) -->
+        <circle cx="52" cy="120" r="9" fill="rgba(0,182,122,0.7)"/>
+        <rect x="43" y="131" width="18" height="4" rx="2" fill="rgba(0,182,122,0.5)"/>
+        <!-- Person: Left (Gatekeeper) -->
+        <circle cx="40" cy="60" r="9" fill="rgba(255,107,0,0.7)"/>
+        <rect x="31" y="71" width="18" height="4" rx="2" fill="rgba(255,107,0,0.5)"/>
+        <!-- Connection Lines to Center -->
+        <line x1="100" y1="31" x2="100" y2="58" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <line x1="151" y1="65" x2="120" y2="72" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <line x1="142" y1="116" x2="116" y2="92" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <line x1="58" y1="116" x2="84" y2="92" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <line x1="49" y1="65" x2="80" y2="72" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <!-- AI Sparkle at center -->
+        <path d="M100 68 L102 74 L108 76 L102 78 L100 84 L98 78 L92 76 L98 74Z" fill="rgba(255,255,255,0.8)"/>
+        <!-- Labels -->
+        <text x="100" y="168" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="10" font-family="Pretendard, sans-serif" font-weight="600">BUYING CENTER</text>
+      </svg>
+    </div>
+  </header>
+
+  <!-- Input Section -->
+  <section class="section-card" id="input-section">
+    <div class="section-title">
+      <span class="icon icon-blue">📋</span>
+      분석 정보 입력
+    </div>
+    <div class="input-grid">
+      <div class="input-group full-width">
+        <label class="input-label">Anthropic API Key</label>
+        <input type="password" class="input-field" id="tcaApiKey" placeholder="sk-ant-...">
+        <span class="input-hint">API 키는 브라우저에서만 사용되며 어디에도 저장/전송되지 않습니다.</span>
+      </div>
+      <div class="input-group full-width">
+        <label class="input-label">회사/조직명</label>
+        <input type="text" class="input-field" id="tcaCompanyName" placeholder="예: 현대코퍼레이션, 유진기업, 경동나비엔 등">
+      </div>
+      <div class="input-group full-width">
+        <label class="input-label">취급 제품/상품</label>
+        <textarea class="input-field" id="tcaProducts" placeholder="예: 변압기, 콘크리트, 보일러 등"></textarea>
+        <span class="input-hint">구체적으로 작성할수록 정확한 분석 결과를 얻을 수 있습니다.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculate Button -->
+  <section class="section-card" style="padding:20px 32px;">
+    <div class="calc-btn-row">
+      <button class="btn-calculate" id="tcaBtnAnalyze">🔍 분석 시작</button>
+    </div>
+  </section>
+
+  <!-- Error Message -->
+  <div class="error-message" id="tcaErrorMsg"></div>
+
+  <!-- Progress Section -->
+  <section class="section-card progress-card" id="tcaProgress">
+    <div class="progress-header">
+      <div class="progress-title">
+        <div class="progress-spinner"></div>
+        <span>AI 분석 진행 중...</span>
+      </div>
+      <div class="progress-percent" id="tcaProgressPercent">0%</div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="tcaProgressBar"></div>
+    </div>
+    <div class="progress-steps">
+      <div class="progress-step" id="tcaStep1">
+        <div class="progress-step-icon">1</div>
+        <span>입력 데이터 검증 및 준비</span>
+      </div>
+      <div class="progress-step" id="tcaStep2">
+        <div class="progress-step-icon">2</div>
+        <span>AI 모델에 분석 요청 전송</span>
+      </div>
+      <div class="progress-step" id="tcaStep3">
+        <div class="progress-step-icon">3</div>
+        <span>타겟 고객 유형 분석 중 (B2C / B2B / B2G)</span>
+      </div>
+      <div class="progress-step" id="tcaStep4">
+        <div class="progress-step-icon">4</div>
+        <span>역할별 페르소나 및 가치제안 생성</span>
+      </div>
+      <div class="progress-step" id="tcaStep5">
+        <div class="progress-step-icon">5</div>
+        <span>결과 정리 및 렌더링</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <div id="tcaResults"></div>
+
+  <!-- Save Buttons -->
+  <div class="save-btn-row" id="tcaSaveBtns">
+    <button class="btn-pdf" id="btnPdf">📄 PDF로 저장</button>
+    <button class="btn-html" id="btnHtml">💾 HTML로 저장</button>
+    <button class="btn-copy" id="btnCopy">📋 텍스트 복사</button>
+  </div>
+</div>
+
+<div class="calc-footer">
+  Powered by Claude Haiku 4.5 API | Target Customer Analyzer | 김종혁 제작
+</div>
+
+<script>
+(function() {
+    var ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
+
+    /* ─── Progress Controller ─── */
+    var progressState = { interval: null, currentPercent: 0, targetPercent: 0 };
+
+    function setProgress(percent) {
+        progressState.targetPercent = Math.min(percent, 100);
+    }
+
+    function activateStep(stepNum) {
+        for (var i = 1; i <= 5; i++) {
+            var el = document.getElementById('tcaStep' + i);
+            el.classList.remove('active', 'done');
+            if (i < stepNum) {
+                el.classList.add('done');
+                el.querySelector('.progress-step-icon').textContent = '✓';
+            } else if (i === stepNum) {
+                el.classList.add('active');
+            }
+        }
+    }
+
+    function startProgressAnimation() {
+        progressState.currentPercent = 0;
+        progressState.targetPercent = 0;
+        document.getElementById('tcaProgressBar').style.width = '0%';
+        document.getElementById('tcaProgressPercent').textContent = '0%';
+        document.getElementById('tcaProgress').classList.add('visible');
+
+        for (var i = 1; i <= 5; i++) {
+            var el = document.getElementById('tcaStep' + i);
+            el.classList.remove('active', 'done');
+            el.querySelector('.progress-step-icon').textContent = i;
+        }
+
+        activateStep(1);
+        setProgress(10);
+
+        setTimeout(function() { activateStep(2); setProgress(25); }, 1500);
+        setTimeout(function() { activateStep(3); setProgress(45); }, 4000);
+        setTimeout(function() { activateStep(4); setProgress(65); }, 8000);
+        setTimeout(function() { setProgress(78); }, 14000);
+        setTimeout(function() { setProgress(85); }, 20000);
+        setTimeout(function() { setProgress(90); }, 28000);
+
+        progressState.interval = setInterval(function() {
+            if (progressState.currentPercent < progressState.targetPercent) {
+                progressState.currentPercent += 0.5;
+                if (progressState.currentPercent > progressState.targetPercent) {
+                    progressState.currentPercent = progressState.targetPercent;
+                }
+                var rounded = Math.round(progressState.currentPercent);
+                document.getElementById('tcaProgressBar').style.width = rounded + '%';
+                document.getElementById('tcaProgressPercent').textContent = rounded + '%';
+            }
+        }, 50);
+    }
+
+    function completeProgress() {
+        activateStep(5);
+        setProgress(100);
+
+        setTimeout(function() {
+            var el5 = document.getElementById('tcaStep5');
+            el5.classList.remove('active');
+            el5.classList.add('done');
+            el5.querySelector('.progress-step-icon').textContent = '✓';
+
+            document.getElementById('tcaProgressBar').style.width = '100%';
+            document.getElementById('tcaProgressPercent').textContent = '100%';
+            progressState.currentPercent = 100;
+            clearInterval(progressState.interval);
+
+            setTimeout(function() {
+                document.getElementById('tcaProgress').classList.remove('visible');
+            }, 600);
+        }, 400);
+    }
+
+    function stopProgress() {
+        clearInterval(progressState.interval);
+        document.getElementById('tcaProgress').classList.remove('visible');
+    }
+
+    /* ─── Prompt ─── */
+    function buildPrompt(companyName, products) {
+        return '당신은 마케팅 전략 전문가이자 고객 분석 전문가입니다.\n\n' +
+            '아래의 회사/조직과 취급하는 제품/상품 정보를 분석하여 다음을 수행해주세요.\n\n' +
+            '## 입력 정보\n' +
+            '- 회사/조직명: ' + companyName + '\n' +
+            '- 취급 제품/상품: ' + products + '\n\n' +
+            '## 분석 요청\n\n' +
+            '1. **타겟 고객 유형 판별**: B2C, B2B, B2G 중 어디에 해당하는지 판별하세요. 복수 선택 가능합니다.\n\n' +
+            '2. **고객사의 산업 및 어플리케이션 분류**: 이 제품/상품을 구매하는 고객사(타겟 고객)가 속한 산업(Industry)과 어플리케이션(Application) 영역을 분석하세요. 즉, 판매하는 회사가 아니라 구매하는 고객이 어떤 산업에서 어떤 용도로 사용하는지를 기준으로 분석합니다.\n\n' +
+            '3. **고객 역할별 분석**:\n\n' +
+            '### B2C인 경우:\n' +
+            '다음 세 가지 역할별로 분석하세요:\n' +
+            '- **사용자(User)**: 실제 제품을 사용하는 사람\n' +
+            '- **구매결정자(Decision Maker)**: 구매를 최종 결정하는 사람\n' +
+            '- **영향력자(Influencer)**: 구매 결정에 영향을 미치는 사람\n\n' +
+            '각 역할별로 다음을 제공하세요:\n' +
+            '- 페르소나 (나이, 성별, 직업, 특성 등)\n' +
+            '- 핵심 니즈/Pain Point\n' +
+            '- 가치제안 (Value Proposition)\n\n' +
+            '### B2B인 경우:\n' +
+            '다음 여섯 가지 역할별로 분석하세요:\n' +
+            '- **Decider (최종결정자)**: 최종 구매 결정 권한을 가진 사람\n' +
+            '- **Buyer (구매담당자)**: 실제 구매 프로세스를 진행하는 사람\n' +
+            '- **Influencer (영향력자)**: 기술적/전문적 의견을 제시하는 사람\n' +
+            '- **Initiator (발의자)**: 구매 필요성을 처음 제기하는 사람\n' +
+            '- **User (사용자)**: 실제 제품/서비스를 사용하는 사람\n' +
+            '- **Gatekeeper (정보통제자)**: 정보 흐름을 통제하는 사람\n\n' +
+            '각 역할별로 다음을 제공하세요:\n' +
+            '- 부서 (Department)\n' +
+            '- 페르소나 (직책, 특성)\n' +
+            '- Pain Point\n' +
+            '- 가치제안 (Value Proposition)\n\n' +
+            '### B2G인 경우:\n' +
+            '정부/공공기관 대상 판매의 특성을 분석하고:\n' +
+            '- 주요 타겟 기관/부서\n' +
+            '- 조달 프로세스 특성\n' +
+            '- 핵심 의사결정 기준\n' +
+            '- 가치제안 (Value Proposition)\n\n' +
+            '반드시 아래 JSON 형식으로 응답하세요. JSON만 출력하고 다른 텍스트는 포함하지 마세요.\n\n' +
+            '```json\n' +
+            '{\n' +
+            '  "company_name": "회사명",\n' +
+            '  "products": "제품/상품",\n' +
+            '  "target_types": ["B2C", "B2B", "B2G"],\n' +
+            '  "industry": {\n' +
+            '    "name": "고객사의 산업명",\n' +
+            '    "application": "고객사의 어플리케이션 영역",\n' +
+            '    "description": "고객사가 이 제품을 사용하는 산업 및 어플리케이션에 대한 간략 설명"\n' +
+            '  },\n' +
+            '  "b2c": {\n' +
+            '    "applicable": true,\n' +
+            '    "roles": [\n' +
+            '      {"role": "사용자(User)", "persona": "...", "pain_points": ["..."], "value_proposition": "..."},\n' +
+            '      {"role": "구매결정자(Decision Maker)", "persona": "...", "pain_points": ["..."], "value_proposition": "..."},\n' +
+            '      {"role": "영향력자(Influencer)", "persona": "...", "pain_points": ["..."], "value_proposition": "..."}\n' +
+            '    ]\n' +
+            '  },\n' +
+            '  "b2b": {\n' +
+            '    "applicable": true,\n' +
+            '    "roles": [\n' +
+            '      {"role": "Decider (최종결정자)", "department": "...", "persona": "...", "pain_points": ["..."], "value_proposition": "..."},\n' +
+            '      {"role": "Buyer (구매담당자)", "department": "...", "persona": "...", "pain_points": ["..."], "value_proposition": "..."},\n' +
+            '      {"role": "Influencer (영향력자)", "department": "...", "persona": "...", "pain_points": ["..."], "value_proposition": "..."},\n' +
+            '      {"role": "Initiator (발의자)", "department": "...", "persona": "...", "pain_points": ["..."], "value_proposition": "..."},\n' +
+            '      {"role": "User (사용자)", "department": "...", "persona": "...", "pain_points": ["..."], "value_proposition": "..."},\n' +
+            '      {"role": "Gatekeeper (정보통제자)", "department": "...", "persona": "...", "pain_points": ["..."], "value_proposition": "..."}\n' +
+            '    ]\n' +
+            '  },\n' +
+            '  "b2g": {\n' +
+            '    "applicable": true,\n' +
+            '    "target_agencies": ["..."],\n' +
+            '    "procurement_characteristics": "...",\n' +
+            '    "decision_criteria": ["..."],\n' +
+            '    "value_proposition": "..."\n' +
+            '  }\n' +
+            '}\n' +
+            '```\n\n' +
+            'applicable이 false인 섹션은 빈 데이터로 두되 구조는 유지하세요.\n' +
+            '분석은 한국어로 작성하세요.';
+    }
+
+    /* ─── API Call ─── */
+    async function callClaudeAPI(apiKey, companyName, products) {
+        var response = await fetch(ANTHROPIC_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: 'claude-haiku-4-5',
+                max_tokens: 8192,
+                messages: [{ role: 'user', content: buildPrompt(companyName, products) }]
+            })
+        });
+
+        if (!response.ok) {
+            var errData = await response.json().catch(function() { return {}; });
+            var errMsg = (errData.error && errData.error.message) || ('API 오류: HTTP ' + response.status);
+            throw new Error(errMsg);
+        }
+
+        var data = await response.json();
+        var text = '';
+        (data.content || []).forEach(function(block) {
+            if (block.type === 'text') text += block.text;
+        });
+        return text;
+    }
+
+    /* ─── Parse & Render ─── */
+    function parseJSON(raw) {
+        var s = raw.trim();
+        if (s.indexOf('```json') === 0) s = s.substring(7);
+        else if (s.indexOf('```') === 0) s = s.substring(3);
+        if (s.lastIndexOf('```') === s.length - 3) s = s.substring(0, s.length - 3);
+        return JSON.parse(s.trim());
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function renderB2CCard(role, colorClass) {
+        return '<div class="role-card">' +
+            '<div class="role-card-header ' + colorClass + '">' + escHtml(role.role) + '</div>' +
+            '<div class="role-card-body">' +
+            '<div class="role-field"><div class="role-field-label">페르소나</div><div class="role-field-value">' + escHtml(role.persona) + '</div></div>' +
+            '<div class="role-field"><div class="role-field-label">Pain Points</div><ul class="pain-list">' +
+            (role.pain_points || []).map(function(p) { return '<li>' + escHtml(p) + '</li>'; }).join('') +
+            '</ul></div>' +
+            '<div class="role-field"><div class="role-field-label">가치제안 (Value Proposition)</div><div class="value-prop">' + escHtml(role.value_proposition) + '</div></div>' +
+            '</div></div>';
+    }
+
+    function renderB2BCard(role, colorClass) {
+        var deptHtml = role.department ?
+            '<div class="role-field"><div class="role-field-label">부서 (Department)</div><span class="department-badge">' + escHtml(role.department) + '</span></div>' : '';
+        return '<div class="role-card">' +
+            '<div class="role-card-header ' + colorClass + '">' + escHtml(role.role) + '</div>' +
+            '<div class="role-card-body">' +
+            deptHtml +
+            '<div class="role-field"><div class="role-field-label">페르소나</div><div class="role-field-value">' + escHtml(role.persona) + '</div></div>' +
+            '<div class="role-field"><div class="role-field-label">Pain Points</div><ul class="pain-list">' +
+            (role.pain_points || []).map(function(p) { return '<li>' + escHtml(p) + '</li>'; }).join('') +
+            '</ul></div>' +
+            '<div class="role-field"><div class="role-field-label">가치제안 (Value Proposition)</div><div class="value-prop">' + escHtml(role.value_proposition) + '</div></div>' +
+            '</div></div>';
+    }
+
+    function renderResults(data) {
+        var el = document.getElementById('tcaResults');
+        var html = '';
+
+        // Target Type Badges
+        html += '<div class="target-badges">';
+        (data.target_types || []).forEach(function(type) {
+            html += '<span class="target-badge badge-' + type.toLowerCase() + '">' + type + '</span>';
+        });
+        html += '</div>';
+
+        // Industry Card
+        if (data.industry) {
+            html += '<div class="industry-card"><h3><span class="icon icon-purple" style="display:inline-flex;">🏭</span> 고객사 산업 및 어플리케이션 분류</h3>' +
+                '<div class="industry-info-grid">' +
+                '<div class="industry-info-item"><div class="info-label">고객사 산업 (Industry)</div><div class="info-value">' + escHtml(data.industry.name) + '</div></div>' +
+                '<div class="industry-info-item"><div class="info-label">고객사 어플리케이션 (Application)</div><div class="info-value">' + escHtml(data.industry.application) + '</div></div>' +
+                '</div>' +
+                (data.industry.description ? '<div class="industry-desc">' + escHtml(data.industry.description) + '</div>' : '') +
+                '</div>';
+        }
+
+        // B2C
+        if (data.b2c && data.b2c.applicable) {
+            var b2cColors = ['b2c-user', 'b2c-decision', 'b2c-influencer'];
+            html += '<div class="result-section-title"><span class="icon icon-green">👥</span> B2C 고객 역할별 분석</div><div class="role-grid">';
+            (data.b2c.roles || []).forEach(function(role, i) {
+                html += renderB2CCard(role, b2cColors[i] || 'b2c-user');
+            });
+            html += '</div>';
+        }
+
+        // B2B
+        if (data.b2b && data.b2b.applicable) {
+            var b2bColors = ['b2b-decider', 'b2b-buyer', 'b2b-influencer', 'b2b-initiator', 'b2b-user', 'b2b-gatekeeper'];
+            html += '<div class="result-section-title"><span class="icon icon-blue">🏢</span> B2B 구매센터(Buying Center) 역할별 분석</div><div class="role-grid">';
+            (data.b2b.roles || []).forEach(function(role, i) {
+                html += renderB2BCard(role, b2bColors[i] || 'b2b-user');
+            });
+            html += '</div>';
+        }
+
+        // B2G
+        if (data.b2g && data.b2g.applicable) {
+            html += '<div class="result-section-title"><span class="icon icon-orange">🏛️</span> B2G 공공부문 분석</div><div class="b2g-section"><div class="b2g-grid">';
+            if (data.b2g.target_agencies && data.b2g.target_agencies.length) {
+                html += '<div class="b2g-item"><h4>주요 타겟 기관/부서</h4><div class="tag-list">' +
+                    data.b2g.target_agencies.map(function(a) { return '<span class="tag">' + escHtml(a) + '</span>'; }).join('') +
+                    '</div></div>';
+            }
+            if (data.b2g.procurement_characteristics) {
+                html += '<div class="b2g-item"><h4>조달 프로세스 특성</h4><div class="role-field-value">' + escHtml(data.b2g.procurement_characteristics) + '</div></div>';
+            }
+            if (data.b2g.decision_criteria && data.b2g.decision_criteria.length) {
+                html += '<div class="b2g-item"><h4>핵심 의사결정 기준</h4><ul class="pain-list">' +
+                    data.b2g.decision_criteria.map(function(c) { return '<li>' + escHtml(c) + '</li>'; }).join('') +
+                    '</ul></div>';
+            }
+            if (data.b2g.value_proposition) {
+                html += '<div class="b2g-item"><h4>가치제안 (Value Proposition)</h4><div class="value-prop">' + escHtml(data.b2g.value_proposition) + '</div></div>';
+            }
+            html += '</div></div>';
+        }
+
+        el.innerHTML = html;
+        el.classList.add('visible');
+        document.getElementById('tcaSaveBtns').classList.add('visible');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ─── Main Analyze ─── */
+    async function analyze() {
+        var apiKey = document.getElementById('tcaApiKey').value.trim();
+        var companyName = document.getElementById('tcaCompanyName').value.trim();
+        var products = document.getElementById('tcaProducts').value.trim();
+        var btn = document.getElementById('tcaBtnAnalyze');
+        var results = document.getElementById('tcaResults');
+        var errorMsg = document.getElementById('tcaErrorMsg');
+
+        if (!apiKey) {
+            errorMsg.textContent = 'Anthropic API Key를 입력해주세요.';
+            errorMsg.classList.add('active');
+            return;
+        }
+        if (!companyName || !products) {
+            errorMsg.textContent = '회사/조직명과 취급 제품/상품을 모두 입력해주세요.';
+            errorMsg.classList.add('active');
+            return;
+        }
+
+        errorMsg.classList.remove('active');
+        results.classList.remove('visible');
+        results.innerHTML = '';
+        document.getElementById('tcaSaveBtns').classList.remove('visible');
+        btn.disabled = true;
+
+        startProgressAnimation();
+
+        try {
+            var rawText = await callClaudeAPI(apiKey, companyName, products);
+            var data = parseJSON(rawText);
+            completeProgress();
+            setTimeout(function() {
+                renderResults(data);
+            }, 1100);
+        } catch (err) {
+            stopProgress();
+            errorMsg.textContent = err.message;
+            errorMsg.classList.add('active');
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    /* ─── Init ─── */
+    var savedKey = localStorage.getItem('tca_anthropic_api_key');
+    if (savedKey) document.getElementById('tcaApiKey').value = savedKey;
+
+    document.getElementById('tcaApiKey').addEventListener('change', function(e) {
+        localStorage.setItem('tca_anthropic_api_key', e.target.value.trim());
+    });
+
+    document.getElementById('tcaBtnAnalyze').addEventListener('click', analyze);
+
+    document.getElementById('tcaApiKey').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('tcaCompanyName').focus();
+    });
+    document.getElementById('tcaCompanyName').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('tcaProducts').focus();
+    });
+    document.getElementById('tcaProducts').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); analyze(); }
+    });
+
+    /* ─── Save: PDF ─── */
+    document.getElementById('btnPdf').addEventListener('click', function() {
+        window.print();
+    });
+
+    /* ─── Save: HTML ─── */
+    document.getElementById('btnHtml').addEventListener('click', function() {
+        var resultsEl = document.getElementById('tcaResults');
+        if (!resultsEl) return;
+
+        var company = document.getElementById('tcaCompanyName').value.trim();
+        var products = document.getElementById('tcaProducts').value.trim();
+        var dateStr = new Date().toLocaleString('ko-KR');
+
+        // 현재 페이지의 style 태그 내용 가져오기
+        var styles = document.querySelector('style').outerHTML;
+        var fontLink = '<link rel="preconnect" href="https://cdn.jsdelivr.net"><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">';
+
+        var htmlContent = '<!DOCTYPE html>\n<html lang="ko">\n<head>\n' +
+            '<meta charset="UTF-8">\n' +
+            '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+            '<title>분석결과 - ' + company + ' (' + dateStr + ')</title>\n' +
+            fontLink + '\n' + styles + '\n</head>\n<body>\n' +
+            '<div class="calculator-wrap">\n' +
+            '<header class="calc-header">\n' +
+            '  <div class="header-badge">🎯 Target Customer Analyzer</div>\n' +
+            '  <h1>AI기반 타겟고객 Buying Center 분석</h1>\n' +
+            '  <p class="subtitle">회사/조직명: ' + company + ' | 취급 제품/상품: ' + products + ' | 분석일시: ' + dateStr + '</p>\n' +
+            '</header>\n' +
+            '<div style="margin-top:20px;">' + resultsEl.innerHTML + '</div>\n' +
+            '</div>\n' +
+            '<div class="calc-footer">Powered by Claude Haiku 4.5 API | Target Customer Analyzer</div>\n' +
+            '</body>\n</html>';
+
+        var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = '분석결과_' + company + '_' + new Date().toISOString().slice(0,10) + '.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    /* ─── Save: Copy to Clipboard ─── */
+    document.getElementById('btnCopy').addEventListener('click', function() {
+        var resultsEl = document.getElementById('tcaResults');
+        if (!resultsEl) return;
+
+        var text = resultsEl.innerText || resultsEl.textContent || '';
+        // 앞에 회사명/제품 정보 추가
+        var company = document.getElementById('tcaCompanyName').value.trim();
+        var products = document.getElementById('tcaProducts').value.trim();
+        var header = '═══ AI기반 타겟고객 Buying Center 분석 결과 ═══\n';
+        header += '회사/조직명: ' + company + '\n';
+        header += '취급 제품/상품: ' + products + '\n';
+        header += '분석 일시: ' + new Date().toLocaleString('ko-KR') + '\n';
+        header += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+
+        var fullText = header + text;
+
+        navigator.clipboard.writeText(fullText).then(function() {
+            var btn = document.getElementById('btnCopy');
+            btn.classList.add('copied');
+            btn.innerHTML = '✅ 복사 완료!';
+            setTimeout(function() {
+                btn.classList.remove('copied');
+                btn.innerHTML = '📋 텍스트 복사';
+            }, 2000);
+        }).catch(function() {
+            // fallback
+            var ta = document.createElement('textarea');
+            ta.value = fullText;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+
+            var btn = document.getElementById('btnCopy');
+            btn.classList.add('copied');
+            btn.innerHTML = '✅ 복사 완료!';
+            setTimeout(function() {
+                btn.classList.remove('copied');
+                btn.innerHTML = '📋 텍스트 복사';
+            }, 2000);
+        });
+    });
+})();
+</script>
