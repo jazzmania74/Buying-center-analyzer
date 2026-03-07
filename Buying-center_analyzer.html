@@ -1029,6 +1029,7 @@ textarea.input-field { resize: vertical; min-height: 80px; }
           var k = document.getElementById('tcaApiKey').value.trim();
           if (k) { localStorage.setItem('tca_anthropic_api_key', k); apiStatus.textContent = '✅ 저장됨'; apiKeyArea.style.display = 'none'; apiArrow.textContent = '▶'; }
           document.getElementById('tcaCompanyName').focus();
+        }
     });
     document.getElementById('tcaCompanyName').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') document.getElementById('tcaProducts').focus();
