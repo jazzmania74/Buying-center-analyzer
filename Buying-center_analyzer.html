@@ -558,9 +558,13 @@ textarea.input-field { resize: vertical; min-height: 80px; }
     </div>
     <div class="input-grid">
       <div class="input-group full-width">
-        <label class="input-label">Anthropic API Key</label>
-        <input type="password" class="input-field" id="tcaApiKey" placeholder="sk-ant-...">
-        <span class="input-hint">API 키는 브라우저에서만 사용되며 어디에도 저장/전송되지 않습니다.</span>
+        <div class="api-toggle" id="apiToggle" style="cursor:pointer;font-size:13px;font-weight:bold;color:#1a73e8;user-select:none;background:#e8f0fe;padding:8px 12px;border-radius:8px;">
+          🔑 Claude API <span id="apiArrow">▶</span> <span id="apiStatus" style="color:#2e7d32;font-size:12px;"></span>
+        </div>
+        <div id="apiKeyArea" style="display:none;margin-top:6px;display:flex;gap:6px;">
+          <input type="password" class="input-field" id="tcaApiKey" placeholder="sk-ant-..." style="flex:1;">
+          <button id="apiSaveBtn" style="padding:8px 16px;background:#1a73e8;color:white;border:none;border-radius:8px;cursor:pointer;font-size:12px;white-space:nowrap;">저장</button>
+        </div>
       </div>
       <div class="input-group full-width">
         <label class="input-label">회사/조직명</label>
@@ -993,16 +997,38 @@ textarea.input-field { resize: vertical; min-height: 80px; }
 
     /* ─── Init ─── */
     var savedKey = localStorage.getItem('tca_anthropic_api_key');
-    if (savedKey) document.getElementById('tcaApiKey').value = savedKey;
-
-    document.getElementById('tcaApiKey').addEventListener('change', function(e) {
-        localStorage.setItem('tca_anthropic_api_key', e.target.value.trim());
+    var apiKeyArea = document.getElementById('apiKeyArea');
+    var apiArrow = document.getElementById('apiArrow');
+    var apiStatus = document.getElementById('apiStatus');
+    if (savedKey) {
+      document.getElementById('tcaApiKey').value = savedKey;
+      apiStatus.textContent = '✅ 저장됨';
+      apiKeyArea.style.display = 'none';
+    } else {
+      apiKeyArea.style.display = 'flex';
+    }
+    document.getElementById('apiToggle').addEventListener('click', function() {
+      if (apiKeyArea.style.display === 'none') {
+        apiKeyArea.style.display = 'flex'; apiArrow.textContent = '▼';
+      } else {
+        apiKeyArea.style.display = 'none'; apiArrow.textContent = '▶';
+      }
+    });
+    document.getElementById('apiSaveBtn').addEventListener('click', function() {
+      var k = document.getElementById('tcaApiKey').value.trim();
+      if (!k) return;
+      localStorage.setItem('tca_anthropic_api_key', k);
+      apiStatus.textContent = '✅ 저장됨';
+      apiKeyArea.style.display = 'none'; apiArrow.textContent = '▶';
     });
 
     document.getElementById('tcaBtnAnalyze').addEventListener('click', analyze);
 
     document.getElementById('tcaApiKey').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') document.getElementById('tcaCompanyName').focus();
+        if (e.key === 'Enter') {
+          var k = document.getElementById('tcaApiKey').value.trim();
+          if (k) { localStorage.setItem('tca_anthropic_api_key', k); apiStatus.textContent = '✅ 저장됨'; apiKeyArea.style.display = 'none'; apiArrow.textContent = '▶'; }
+          document.getElementById('tcaCompanyName').focus();
     });
     document.getElementById('tcaCompanyName').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') document.getElementById('tcaProducts').focus();
